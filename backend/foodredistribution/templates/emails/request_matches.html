@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommended Matches</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            margin: 20px;
+        }
+        .match-container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .match-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+            white-space: pre-wrap;
+        }
+        .score-label {
+            float: right;
+            background-color: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .match-summary {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-top: 10px;
+        }
+        .claim-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            float: right;
+        }
+        .claim-btn:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="match-container">
+        <h2>🔍 Top AI-Picked Matches</h2>
+
+        {% for match in matches %}
+        <div class="match-card">
+            <div class="score-label">
+                Score: {{ match.match_score|floatformat:2 }}
+            </div>
+            <div class="match-summary">
+                {{ match.summary }}
+            </div>
+            <form method="post" action="{% url 'claim_donation' match.donation.id %}">
+                {% csrf_token %}
+                <button type="submit" class="claim-btn">🚚 Claim This Donation</button>
+            </form>
+            <div style="clear: both;"></div>
+        </div>
+        {% empty %}
+        <p style="text-align: center;">😕 No matches found at the moment. Please check back later.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

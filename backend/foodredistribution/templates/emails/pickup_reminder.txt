@@ -1,0 +1,11 @@
+Hi {{ username }},
+
+This is a friendly reminder to pick up your claimed food donation:
+
+Description: {{ description }}
+Location: {{ location }}
+Expiry: {{ expiry }}
+
+Please ensure you pick it up before expiry.
+
+Thank you!

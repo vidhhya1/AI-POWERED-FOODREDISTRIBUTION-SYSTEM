@@ -1,0 +1,13 @@
+New Food Donation Available!
+
+Donor: {{ donor }}
+Category: {{ category }}
+Quantity: {{ quantity }} kg
+Location: {{ location.city }}, {{ location.state }} {{ location.zipcode }}
+Description: {{ description }}
+Expiry Date: {{ expiry_date }}
+{% if image_url %}
+Image: {{ image_url }}
+{% endif %}
+
+Visit the platform to view and claim it.

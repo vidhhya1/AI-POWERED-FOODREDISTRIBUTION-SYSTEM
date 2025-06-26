@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        .container {
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            max-width: 600px;
+            margin: auto;
+        }
+        .header {
+            color: #007bff;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .details p {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+        .label {
+            font-weight: bold;
+        }
+        .food-image {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">🍽️ New Food Donation Available!</div>
+
+        {% if image_url %}
+            <img src="{{ image_url }}" alt="Food Image" class="food-image" />
+        {% endif %}
+
+        <div class="details">
+            <p><span class="label">Donor:</span> {{ donor }}</p>
+            <p><span class="label">Category:</span> {{ category }}</p>
+            <p><span class="label">Quantity:</span> {{ quantity }} kg</p>
+            <p><span class="label">Location:</span> {{ location.city }}, {{ location.state }} {{ location.zipcode }}</p>
+            <p><span class="label">Description:</span> {{ description }}</p>
+            <p><span class="label">Expiry Date:</span> {{ expiry_date }}</p>
+        </div>
+        <p>Visit the platform to view and claim it.</p>
+    </div>
+</body>
+</html>

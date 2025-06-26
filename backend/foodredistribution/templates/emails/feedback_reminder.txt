@@ -1,0 +1,11 @@
+Hi {{ username }},
+
+Hope you were able to pick up your food donation!
+
+Please take a moment to share your feedback — your response helps us improve the service.
+
+Description: {{ description }}
+
+Visit your dashboard to submit feedback.
+
+Thank you!

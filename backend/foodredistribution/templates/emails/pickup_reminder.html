@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; background: #f9f9f9; padding: 20px; }
+        .container { background: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; }
+        .header { font-size: 22px; color: #007bff; margin-bottom: 10px; }
+        .info { margin: 10px 0; }
+        .label { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">⏰ Pickup Reminder</div>
+        <p>Hi {{ username }},</p>
+        <p>This is a reminder to pick up your claimed food donation:</p>
+        <div class="info"><span class="label">Description:</span> {{ description }}</div>
+        <div class="info"><span class="label">Location:</span> {{ location }}</div>
+        <div class="info"><span class="label">Expiry Time:</span> {{ expiry }}</div>
+        <p>Please ensure you collect it before expiry.</p>
+        <p>Thank you!</p>
+    </div>
+</body>
+</html>
