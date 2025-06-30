@@ -14,7 +14,8 @@ app.conf.beat_schedule = {
         'task': 'demand.tasks.retrain_demand_models',
         'schedule': crontab(hour=0, minute=0),
     },
-} 
+}  
+
 app.conf.beat_schedule.update({
     'send-pickup-reminders-every-30-minutes': {
         'task': 'foodredistribution.tasks.send_pickup_reminders',

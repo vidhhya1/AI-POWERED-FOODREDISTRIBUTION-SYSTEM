@@ -1,3 +1,5 @@
+# backend/foodredistribution/serializers.py
+
 from rest_framework import serializers
 from .models import (
     FoodDonation, FoodRequest, FoodCategory, Location, ClaimedDonation, Feedback
@@ -8,10 +10,15 @@ from django.contrib.auth.password_validation import validate_password
 
 CustomUser = get_user_model()
 
+# UserSerializer is defined twice in your provided file. Ensure only one correct version is used.
+# Use the one that includes is_donor and is_requester for full user details.
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email']
+        fields = [
+            'id', 'username', 'email', 'phone_number',
+            'organization_name', 'is_donor', 'is_requester', 'profile_image'
+        ]
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -110,16 +117,29 @@ class FoodRequestSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+# ADDED: Simple Feedback Serializer for nesting
+class SimpleFeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
+        fields = ['id', 'rating', 'comments']
+
+
 class ClaimedDonationSerializer(serializers.ModelSerializer):
     # Accept donation ID on input
     donation = serializers.PrimaryKeyRelatedField(queryset=FoodDonation.objects.all(), write_only=True)
     # Return nested donation details on output
     donation_details = FoodDonationSerializer(source='donation', read_only=True)
     claimed_by = UserSerializer(read_only=True)
+    
+    # ADDED: To include the nested feedback object if it exists
+    # 'feedback' here refers to the related_name on the Feedback model's OneToOneField
+    # from ClaimedDonation (which is default 'feedback')
+    feedback = SimpleFeedbackSerializer(read_only=True) 
 
     class Meta:
         model = ClaimedDonation
-        fields = ['id', 'donation', 'donation_details', 'claimed_by', 'claim_date']
+        # UPDATED: Added 'feedback' to the fields list
+        fields = ['id', 'donation', 'donation_details', 'claimed_by', 'claim_date', 'feedback'] 
 
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
@@ -135,13 +155,6 @@ class FeedbackSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Feedback already submitted for this donation.")
         return value
     
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = [
-            'id', 'username', 'email', 'phone_number',
-            'organization_name', 'is_donor', 'is_requester', 'profile_image'
-        ]
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])

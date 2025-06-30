@@ -43,17 +43,17 @@ class SmartMatchingEngine:
         )
         print("Initialized new matching model")
     
-    def find_best_matches(self, donation, top_k=3):
-        """Find best matching requests for a donation"""
-        # Get all pending requests
-        pending_requests = FoodRequest.objects.filter(status='pending')
+    def find_best_donations(self, request, top_k=3):
+        """Find best matching donations for a request - NEW METHOD"""
+        # Get all available (pending) donations
+        available_donations = FoodDonation.objects.filter(status='pending')
         
-        if not pending_requests.exists():
+        if not available_donations.exists():
             return []
         
         matches = []
         
-        for request in pending_requests:
+        for donation in available_donations:
             # Extract features
             features = self.feature_extractor.extract_features(
                 donation, request,
@@ -65,7 +65,7 @@ class SmartMatchingEngine:
             match_score = self._calculate_match_score(features)
             
             matches.append({
-                'request': request,
+                'donation': donation,
                 'score': match_score,
                 'features': features,
                 'distance_km': features['distance_km']
